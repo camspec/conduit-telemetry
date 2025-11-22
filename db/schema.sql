@@ -5,3 +5,11 @@ CREATE TABLE devices (
   category varchar(50) NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE TABLE telemetry_numeric (
+  id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  reading numeric NOT NULL,
+  unit varchar(50),
+  device_id integer NOT NULL REFERENCES devices(id),
+  recorded_at timestamptz NOT NULL
+);
