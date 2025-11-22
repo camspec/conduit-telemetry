@@ -41,6 +41,14 @@ function generateBooleans(count, probabilityTrue) {
   return values;
 }
 
+function generateTimestamps(count, startTime, intervalMs) {
+  const timestamps = [];
+  for (let i = 0; i < count; i++) {
+    timestamps.push(new Date(startTime.getTime() + i * intervalMs));
+  }
+  return timestamps;
+}
+
 async function clearData(client) {
   await client.query("TRUNCATE TABLE devices CASCADE");
 }
@@ -52,6 +60,7 @@ async function main() {
   // await generateDevices(client, 5);
   console.log(generateWavePattern(100, 20, 3, 20));
   console.log(generateBooleans(100, 0.2));
+  console.log(generateTimestamps(100, new Date(Date.UTC(2025, 6, 2, 0)), 1000 * 60 * 15))
   // await client.end();
 }
 
