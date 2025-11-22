@@ -13,3 +13,5 @@ CREATE TABLE telemetry_numeric (
   device_id integer NOT NULL REFERENCES devices(id),
   recorded_at timestamptz NOT NULL
 );
+
+CREATE INDEX idx_telemetry_numeric_device_time ON telemetry_numeric(device_id, recorded_at);
