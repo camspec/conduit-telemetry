@@ -1,26 +1,69 @@
 const crypto = require("node:crypto");
 const { Client } = require("pg");
 
-const deviceNames = [
-  "Temperature Sensor",
-  "Humidity Sensor",
-  "Motion Detector",
-  "Moisture Meter",
-  "Water Leak Detector",
+const devices = [
+  {
+    name: "Temperature Sensor",
+    category: "temperature",
+    dataType: "numeric",
+    timeframe: {
+      count: 100,
+      startTime: new Date(Date.UTC(2025, 6, 1, 0)),
+      intervalMs: 1000 * 60 * 15,
+    },
+  },
+  {
+    name: "Humidity Sensor",
+    category: "humidity",
+    dataType: "numeric",
+    timeframe: {
+      count: 100,
+      startTime: new Date(Date.UTC(2025, 6, 1, 0)),
+      intervalMs: 1000 * 60 * 15,
+    },
+  },
+  {
+    name: "Motion Detector",
+    category: "motion",
+    dataType: "text",
+    timeframe: {
+      count: 300,
+      startTime: new Date(Date.UTC(2025, 7, 1, 0)),
+      intervalMs: 1000,
+    },
+  },
+  {
+    name: "Moisture Meter",
+    category: "moisture",
+    dataType: "numeric",
+    timeframe: {
+      count: 50,
+      startTime: new Date(Date.UTC(2025, 6, 1, 0)),
+      intervalMs: 1000 * 60 * 30,
+    },
+  },
+  {
+    name: "Water Leak Detector",
+    category: "leak",
+    dataType: "text",
+    timeframe: {
+      count: 48,
+      startTime: new Date(Date.UTC(2025, 8, 1, 0)),
+      intervalMs: 1000 * 60,
+    },
+  },
 ];
-
-const categories = ["temperature", "humidity", "motion", "moisture", "leak"];
 
 function generateApiKey() {
   const bytes = crypto.randomBytes(32);
   return bytes.toString("hex");
 }
 
-async function generateDevices(client, count) {
-  for (let i = 0; i < count; i++) {
+async function generateDevices(client) {
+  for (const device of devices) {
     await client.query(
       "INSERT INTO devices(name, api_key, category) VALUES($1, $2, $3)",
-      [deviceNames[i], generateApiKey(), categories[i]]
+      [device.name, generateApiKey, device.category]
     );
   }
 }
@@ -60,7 +103,9 @@ async function main() {
   // await generateDevices(client, 5);
   console.log(generateWavePattern(100, 20, 3, 20));
   console.log(generateBooleans(100, 0.2));
-  console.log(generateTimestamps(100, new Date(Date.UTC(2025, 6, 2, 0)), 1000 * 60 * 15))
+  console.log(
+    generateTimestamps(100, new Date(Date.UTC(2025, 6, 1, 0)), 1000 * 60 * 15)
+  );
   // await client.end();
 }
 
