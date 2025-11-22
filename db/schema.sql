@@ -22,3 +22,5 @@ CREATE TABLE telemetry_text (
   device_id integer NOT NULL REFERENCES devices(id),
   recorded_at timestamptz NOT NULL
 );
+
+CREATE INDEX idx_telemtetry_text_device_time ON telemetry_text(device_id, recorded_at);
