@@ -5,6 +5,20 @@ const pool = require("../db/pool");
 
 const PORT = process.env.PORT || 3000;
 
+app.get("/devices", async (req, res) => {
+  try {
+    const deviceResult = await pool.query(
+      "SELECT id, name, category, data_type, created_at FROM devices"
+    );
+
+    // just return an empty array if no devices exist
+    res.json(deviceResult.rows);
+  } catch (error) {
+    console.error("Error fetching devices:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get("/devices/:deviceId/telemetry", async (req, res) => {
   try {
     const deviceId = req.params.deviceId;
