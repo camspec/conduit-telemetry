@@ -30,7 +30,7 @@ app.get("/devices/:deviceId/telemetry", async (req, res) => {
 
     res.json(telemetryResult.rows);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching telemetry:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
