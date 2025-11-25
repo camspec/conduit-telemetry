@@ -88,8 +88,8 @@ async function generateDevices(client) {
   const deviceIds = [];
   for (const device of devices) {
     const result = await client.query(
-      "INSERT INTO devices(name, api_key, category) VALUES($1, $2, $3) RETURNING id",
-      [device.name, generateApiKey(), device.category]
+      "INSERT INTO devices(name, api_key, category, data_type) VALUES($1, $2, $3, $4) RETURNING id",
+      [device.name, generateApiKey(), device.category, device.dataType]
     );
     deviceIds.push(result.rows[0].id);
   }

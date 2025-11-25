@@ -3,6 +3,7 @@ CREATE TABLE devices (
   name varchar(100) NOT NULL,
   api_key varchar(64) NOT NULL UNIQUE,
   category varchar(50) NOT NULL,
+  data_type varchar(20) NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
