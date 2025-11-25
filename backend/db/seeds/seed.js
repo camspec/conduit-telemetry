@@ -1,3 +1,4 @@
+require("dotenv").config();
 const crypto = require("node:crypto");
 const { Client } = require("pg");
 
