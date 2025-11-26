@@ -1,11 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const pool = require("../db/pool");
 
+app.use(cors());
+
 const PORT = process.env.PORT || 3000;
 
-app.get("/devices", async (req, res) => {
+app.get("/api/devices", async (req, res) => {
   try {
     const deviceResult = await pool.query(
       "SELECT id, name, category, data_type, created_at FROM devices"
@@ -14,12 +17,31 @@ app.get("/devices", async (req, res) => {
     // just return an empty array if no devices exist
     res.json(deviceResult.rows);
   } catch (error) {
-    console.error("Error fetching devices:", error);
+    console.error("Error fetching list of devices:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.get("/devices/:deviceId/telemetry", async (req, res) => {
+app.get("/api/devices/:deviceId", async (req, res) => {
+  try {
+    const deviceId = req.params.deviceId;
+    const deviceResult = await pool.query(
+      "SELECT id, name, category, data_type, created_at FROM devices WHERE id = $1",
+      [deviceId]
+    );
+
+    if (deviceResult.rows.length === 0) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    res.json(deviceResult.rows[0]);
+  } catch (error) {
+    console.error("Error fetching device:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
   try {
     const deviceId = req.params.deviceId;
     const limit = parseInt(req.query.limit) || 100;
