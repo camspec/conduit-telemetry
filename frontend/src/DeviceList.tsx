@@ -1,13 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-
-interface Device {
-  id: number;
-  name: string;
-  category: string;
-  data_type: string;
-  created_at: string;
-}
+import type { Device } from "./types.ts";
 
 export default function DeviceList() {
   const {
