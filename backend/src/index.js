@@ -1,11 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const pool = require("../db/pool");
 
+app.use(cors());
+
 const PORT = process.env.PORT || 3000;
 
-app.get("/devices", async (req, res) => {
+app.get("/api/devices", async (req, res) => {
   try {
     const deviceResult = await pool.query(
       "SELECT id, name, category, data_type, created_at FROM devices"
@@ -19,7 +22,7 @@ app.get("/devices", async (req, res) => {
   }
 });
 
-app.get("/devices/:deviceId/telemetry", async (req, res) => {
+app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
   try {
     const deviceId = req.params.deviceId;
     const limit = parseInt(req.query.limit) || 100;
