@@ -1,5 +1,5 @@
-import DeviceList from "./DeviceList.tsx";
+import { Outlet } from "react-router";
 
 export default function App() {
-  return <DeviceList />;
+  return <Outlet />;
 }

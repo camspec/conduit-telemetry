@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
 interface Device {
   id: number;
@@ -35,7 +36,9 @@ export default function DeviceList() {
   return (
     <ul>
       {devices.map((device) => (
-        <li key={device.id}>{device.name}</li>
+        <li key={device.id}>
+          <Link to={`/devices/${device.id}`}>{device.name}</Link>
+        </li>
       ))}
     </ul>
   );
