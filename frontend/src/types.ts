@@ -7,7 +7,6 @@ export interface Device {
 }
 
 export interface NumericDatapoint {
-  type: "numeric";
   id: number;
   reading: number;
   unit?: string;
@@ -15,7 +14,6 @@ export interface NumericDatapoint {
 }
 
 export interface TextDatapoint {
-  type: "text";
   id: number;
   reading: string;
   recorded_at: string;
