@@ -1,5 +1,5 @@
-function App() {
-  return <h1>IoT Dashboard</h1>;
-}
+import DeviceList from "./DeviceList.tsx";
 
-export default App;
+export default function App() {
+  return <DeviceList />;
+}
