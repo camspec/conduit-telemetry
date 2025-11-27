@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.get("/api/devices", async (req, res) => {
   try {
     const deviceResult = await pool.query(
-      "SELECT id, name, category, data_type, created_at FROM devices"
+      "SELECT id, name, category, data_type, created_at FROM devices",
     );
 
     // just return an empty array if no devices exist
@@ -27,7 +27,7 @@ app.get("/api/devices/:deviceId", async (req, res) => {
     const deviceId = req.params.deviceId;
     const deviceResult = await pool.query(
       "SELECT id, name, category, data_type, created_at FROM devices WHERE id = $1",
-      [deviceId]
+      [deviceId],
     );
 
     if (deviceResult.rows.length === 0) {
@@ -48,7 +48,7 @@ app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
 
     const deviceResult = await pool.query(
       "SELECT data_type FROM devices WHERE id = $1",
-      [deviceId]
+      [deviceId],
     );
 
     if (deviceResult.rows.length === 0) {
@@ -61,7 +61,7 @@ app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
 
     const telemetryResult = await pool.query(
       `SELECT * FROM ${telemetryTable} WHERE device_id = $1 ORDER BY recorded_at DESC LIMIT $2`,
-      [deviceId, limit]
+      [deviceId, limit],
     );
 
     res.json(telemetryResult.rows);

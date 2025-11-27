@@ -89,7 +89,7 @@ async function generateDevices(client) {
   for (const device of devices) {
     const result = await client.query(
       "INSERT INTO devices(name, api_key, category, data_type) VALUES($1, $2, $3, $4) RETURNING id",
-      [device.name, generateApiKey(), device.category, device.dataType]
+      [device.name, generateApiKey(), device.category, device.dataType],
     );
     deviceIds.push(result.rows[0].id);
   }
@@ -128,7 +128,7 @@ async function generateTelemetry(client, deviceIds) {
     const timestamps = generateTimestamps(
       device.readings,
       device.timeframe.startTime,
-      device.timeframe.intervalMs
+      device.timeframe.intervalMs,
     );
 
     if (device.dataType === "numeric") {
@@ -136,25 +136,25 @@ async function generateTelemetry(client, deviceIds) {
         device.readings,
         device.pattern.baseline,
         device.pattern.amplitude,
-        device.pattern.period
+        device.pattern.period,
       );
 
       for (let j = 0; j < device.readings; j++) {
         await client.query(
           "INSERT INTO telemetry_numeric(reading, unit, device_id, recorded_at) VALUES($1, $2, $3, $4)",
-          [readings[j], device.unit, deviceId, timestamps[j]]
+          [readings[j], device.unit, deviceId, timestamps[j]],
         );
       }
     } else {
       const readings = generateBooleans(
         device.readings,
-        device.pattern.probabilityTrue
+        device.pattern.probabilityTrue,
       );
 
       for (let j = 0; j < device.readings; j++) {
         await client.query(
           "INSERT INTO telemetry_text(reading, device_id, recorded_at) VALUES($1, $2, $3)",
-          [readings[j].toString(), deviceId, timestamps[j]]
+          [readings[j].toString(), deviceId, timestamps[j]],
         );
       }
     }
