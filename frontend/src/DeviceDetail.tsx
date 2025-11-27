@@ -1,5 +1,6 @@
-import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router";
+import { Link } from "react-router";
 import type { Device, NumericDatapoint, TextDatapoint } from "./types.ts";
 
 export default function DeviceDetail() {
@@ -54,12 +55,18 @@ export default function DeviceDetail() {
 
   return (
     <div className="bg-slate-900 p-10 space-y-6 rounded-xl">
+      <Link
+        to="/devices"
+        className="inline-block text-blue-400 hover:text-blue-300"
+      >
+        &lt;- Back to devices
+      </Link>
       <h1 className="font-bold text-xl">{device.name}</h1>
       <ul className="text-gray-400 text-sm">
         <li>Device {device.id}</li>
         <li>Category: {device.category}</li>
         <li>Data Type: {device.data_type}</li>
-        <li>Created At: {device.created_at}</li>
+        <li>Created At: {new Date(device.created_at).toLocaleString()}</li>
       </ul>
       <div className="border rounded-lg border-slate-600 overflow-hidden">
         <table className="w-full">
@@ -87,7 +94,9 @@ export default function DeviceDetail() {
                   >
                     <td className="px-4 py-2">{t.reading}</td>
                     <td className="px-4 py-2">{t.unit}</td>
-                    <td className="px-4 py-2">{t.recorded_at}</td>
+                    <td className="px-4 py-2">
+                      {new Date(t.recorded_at).toLocaleString()}
+                    </td>
                   </tr>
                 ))
               : (telemetry as TextDatapoint[]).map((t) => (
@@ -96,7 +105,9 @@ export default function DeviceDetail() {
                     className="hover:bg-slate-800/50 transition-colors"
                   >
                     <td className="px-4 py-2">{t.reading}</td>
-                    <td className="px-4 py-2">{t.recorded_at}</td>
+                    <td className="px-4 py-2">
+                      {new Date(t.recorded_at).toLocaleString()}
+                    </td>
                   </tr>
                 ))}
           </tbody>
