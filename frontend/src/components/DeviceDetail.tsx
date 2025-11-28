@@ -1,8 +1,9 @@
 import { useParams } from "react-router";
 import { Link } from "react-router";
-import type { NumericDatapoint, TextDatapoint } from "../types.ts";
 import { useDevice } from "../hooks/useDevice.ts";
 import { useTelemetry } from "../hooks/useTelemetry.ts";
+import DeviceInfo from "./DeviceInfo.tsx";
+import TelemetryTable from "./TelemetryTable.tsx";
 
 export default function DeviceDetail() {
   const params = useParams();
@@ -44,57 +45,8 @@ export default function DeviceDetail() {
         &lt;- Back to devices
       </Link>
       <h2 className="font-bold text-xl">{device.name}</h2>
-      <ul className="text-gray-400 text-sm">
-        <li>Device {device.id}</li>
-        <li>Category: {device.category}</li>
-        <li>Data Type: {device.data_type}</li>
-        <li>Created At: {new Date(device.created_at).toLocaleString()}</li>
-      </ul>
-      <div className="border border-slate-600 rounded-lg overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-slate-800 text-left">
-            <tr>
-              <th scope="col" className="px-4 py-2">
-                Reading
-              </th>
-              {device.data_type === "numeric" && (
-                <th scope="col" className="px-4 py-2">
-                  Unit
-                </th>
-              )}
-              <th scope="col" className="px-4 py-2">
-                Timestamp
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-700">
-            {device.data_type === "numeric"
-              ? (telemetry as NumericDatapoint[]).map((t) => (
-                  <tr
-                    key={t.id}
-                    className="hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td className="px-4 py-2">{t.reading}</td>
-                    <td className="px-4 py-2">{t.unit}</td>
-                    <td className="px-4 py-2">
-                      {new Date(t.recorded_at).toLocaleString()}
-                    </td>
-                  </tr>
-                ))
-              : (telemetry as TextDatapoint[]).map((t) => (
-                  <tr
-                    key={t.id}
-                    className="hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td className="px-4 py-2">{t.reading}</td>
-                    <td className="px-4 py-2">
-                      {new Date(t.recorded_at).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-      </div>
+      <DeviceInfo device={device} />
+      <TelemetryTable telemetry={telemetry} />
     </div>
   );
 }
