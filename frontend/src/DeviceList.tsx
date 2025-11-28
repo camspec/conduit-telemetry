@@ -1,23 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-import type { Device } from "./types.ts";
+import { useDevices } from "./hooks/useDevices.ts";
 
 export default function DeviceList() {
-  const {
-    data: devices = [],
-    error,
-    isError,
-    isPending,
-  } = useQuery<Device[]>({
-    queryKey: ["devices"],
-    queryFn: async () => {
-      const res = await fetch("/api/devices");
-      if (!res.ok) {
-        throw new Error("Failed to fetch devices");
-      }
-      return res.json();
-    },
-  });
+  const { data: devices = [], error, isError, isPending } = useDevices();
 
   if (isPending) {
     return <p className="p-10">Loading devices...</p>;
