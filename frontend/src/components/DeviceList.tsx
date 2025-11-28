@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useDevices } from "./hooks/useDevices.ts";
+import { useDevices } from "../hooks/useDevices.ts";
 
 export default function DeviceList() {
   const { data: devices = [], error, isError, isPending } = useDevices();

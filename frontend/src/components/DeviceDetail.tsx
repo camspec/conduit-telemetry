@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { Link } from "react-router";
-import type { Device, NumericDatapoint, TextDatapoint } from "./types.ts";
+import type { Device, NumericDatapoint, TextDatapoint } from "../types.ts";
 
 export default function DeviceDetail() {
   const params = useParams();
