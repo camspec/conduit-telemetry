@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { Link } from "react-router";
-import type { Device, NumericDatapoint, TextDatapoint } from "../types.ts";
+import type { NumericDatapoint, TextDatapoint } from "../types.ts";
+import { useDevice } from "../hooks/useDevice.ts";
+import { useTelemetry } from "../hooks/useTelemetry.ts";
 
 export default function DeviceDetail() {
   const params = useParams();
@@ -11,33 +12,14 @@ export default function DeviceDetail() {
     error: deviceError,
     isError: deviceIsError,
     isPending: deviceIsPending,
-  } = useQuery<Device>({
-    queryKey: ["devices", params.deviceId],
-    queryFn: async () => {
-      const res = await fetch(`/api/devices/${params.deviceId}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch device");
-      }
-      return res.json();
-    },
-  });
+  } = useDevice(params.deviceId);
 
   const {
     data: telemetry,
     error: telemetryError,
     isError: telemetryIsError,
     isPending: telemetryIsPending,
-  } = useQuery<NumericDatapoint[] | TextDatapoint[]>({
-    queryKey: ["telemetry", device?.id],
-    queryFn: async () => {
-      const res = await fetch(`/api/devices/${device?.id}/telemetry`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch telemetry");
-      }
-      return res.json();
-    },
-    enabled: !!device,
-  });
+  } = useTelemetry(params.deviceId);
 
   if (deviceIsPending) {
     return <p className="p-10">Loading device...</p>;
