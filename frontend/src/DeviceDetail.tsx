@@ -61,14 +61,14 @@ export default function DeviceDetail() {
       >
         &lt;- Back to devices
       </Link>
-      <h1 className="font-bold text-xl">{device.name}</h1>
+      <h2 className="font-bold text-xl">{device.name}</h2>
       <ul className="text-gray-400 text-sm">
         <li>Device {device.id}</li>
         <li>Category: {device.category}</li>
         <li>Data Type: {device.data_type}</li>
         <li>Created At: {new Date(device.created_at).toLocaleString()}</li>
       </ul>
-      <div className="border rounded-lg border-slate-600 overflow-hidden">
+      <div className="border border-slate-600 rounded-lg overflow-hidden">
         <table className="w-full">
           <thead className="bg-slate-800 text-left">
             <tr>

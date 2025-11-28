@@ -23,7 +23,7 @@ export default function DeviceList() {
     return <p className="p-10">Loading devices...</p>;
   }
   if (isError) {
-    return <p className="p-10">Error: {error.message}</p>;
+    return <p className="p-10 text-red-400">Error: {error.message}</p>;
   }
 
   return (
