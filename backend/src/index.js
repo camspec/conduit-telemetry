@@ -1,76 +1,24 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
 const cors = require("cors");
+const devicesRouter = require("./routes/devices.js");
+const initWebSocket = require("./websocket/server.js");
+
 const app = express();
-const pool = require("../db/pool");
-
-app.use(cors());
-
 const PORT = process.env.PORT || 3000;
 
-app.get("/api/devices", async (req, res) => {
-  try {
-    const deviceResult = await pool.query(
-      "SELECT id, name, category, data_type, created_at FROM devices",
-    );
+app.use(cors());
+app.use("/api/devices", devicesRouter);
 
-    // just return an empty array if no devices exist
-    res.json(deviceResult.rows);
-  } catch (error) {
-    console.error("Error fetching list of devices:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+const server = http.createServer(app);
 
-app.get("/api/devices/:deviceId", async (req, res) => {
-  try {
-    const deviceId = req.params.deviceId;
-    const deviceResult = await pool.query(
-      "SELECT id, name, category, data_type, created_at FROM devices WHERE id = $1",
-      [deviceId],
-    );
+const broadcast = initWebSocket(server);
 
-    if (deviceResult.rows.length === 0) {
-      return res.status(404).json({ error: "Device not found" });
-    }
-
-    res.json(deviceResult.rows[0]);
-  } catch (error) {
-    console.error("Error fetching device:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
-  try {
-    const deviceId = req.params.deviceId;
-    const limit = parseInt(req.query.limit) || 100;
-
-    const deviceResult = await pool.query(
-      "SELECT data_type FROM devices WHERE id = $1",
-      [deviceId],
-    );
-
-    if (deviceResult.rows.length === 0) {
-      return res.status(404).json({ error: "Device not found" });
-    }
-
-    const dataType = deviceResult.rows[0].data_type;
-    const telemetryTable =
-      dataType === "numeric" ? "telemetry_numeric" : "telemetry_text";
-
-    const telemetryResult = await pool.query(
-      `SELECT * FROM ${telemetryTable} WHERE device_id = $1 ORDER BY recorded_at ASC LIMIT $2`,
-      [deviceId, limit],
-    );
-
-    res.json(telemetryResult.rows);
-  } catch (error) {
-    console.error("Error fetching telemetry:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+
+setInterval(() => {
+  broadcast({ type: "telemetry", value: Math.random() });
+}, 2000);

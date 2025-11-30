@@ -66,3 +66,14 @@ export default function DeviceDetail() {
     </div>
   );
 }
+
+const ws = new WebSocket("ws://localhost:3000");
+
+ws.onopen = () => {
+  console.log("Connected");
+  ws.send("Hello from frontend!");
+};
+
+ws.onmessage = (event) => {
+  console.log("Received:", event.data);
+};
