@@ -1,17 +1,15 @@
 import type { NumericDatapoint, TextDatapoint } from "../types.ts";
+import { formatLongTimestamp } from "../utils/telemetryUtils.ts";
 
 type TelemetryTableProps = {
   telemetry: NumericDatapoint[] | TextDatapoint[];
+  isNumeric: boolean;
 };
 
-function isNumericTelemetry(
-  telemetry: NumericDatapoint[] | TextDatapoint[],
-): telemetry is NumericDatapoint[] {
-  return telemetry.length === 0 || "unit" in telemetry[0];
-}
-
-export default function TelemetryTable({ telemetry }: TelemetryTableProps) {
-  const isNumeric = isNumericTelemetry(telemetry);
+export default function TelemetryTable({
+  telemetry,
+  isNumeric,
+}: TelemetryTableProps) {
   return (
     <div className="border border-slate-600 rounded-lg overflow-hidden">
       <table className="w-full">
@@ -38,7 +36,7 @@ export default function TelemetryTable({ telemetry }: TelemetryTableProps) {
                 <td className="px-4 py-2">{(t as NumericDatapoint).unit}</td>
               )}
               <td className="px-4 py-2">
-                {new Date(t.recorded_at).toLocaleString()}
+                {formatLongTimestamp(t.recorded_at)}
               </td>
             </tr>
           ))}

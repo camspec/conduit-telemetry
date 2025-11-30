@@ -4,6 +4,9 @@ import { useDevice } from "../hooks/useDevice.ts";
 import { useTelemetry } from "../hooks/useTelemetry.ts";
 import DeviceInfo from "./DeviceInfo.tsx";
 import TelemetryTable from "./TelemetryTable.tsx";
+import TelemetryAreaChart from "./TelemetryAreaChart.tsx";
+import TelemetryStepLineChart from "./TelemetryStepLineChart.tsx";
+import type { NumericDatapoint, TextDatapoint } from "../types.ts";
 
 export default function DeviceDetail() {
   const params = useParams();
@@ -36,17 +39,30 @@ export default function DeviceDetail() {
     return <p className="p-10 text-red-400">Error: {telemetryError.message}</p>;
   }
 
+  const isNumeric = device.data_type === "numeric";
+
   return (
-    <div className="bg-slate-900 p-10 space-y-6 rounded-xl">
-      <Link
-        to="/devices"
-        className="inline-block text-blue-400 hover:text-blue-300"
-      >
-        &lt;- Back to devices
-      </Link>
-      <h2 className="font-bold text-xl">{device.name}</h2>
-      <DeviceInfo device={device} />
-      <TelemetryTable telemetry={telemetry} />
+    <div className="bg-slate-900 p-10 rounded-xl">
+      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="space-y-10 lg:flex-1">
+          <Link
+            to="/devices"
+            className="inline-block text-blue-400 hover:text-blue-300"
+          >
+            &lt;- Back to devices
+          </Link>
+          <h2 className="font-bold text-xl">{device.name}</h2>
+          <DeviceInfo device={device} />
+          {isNumeric ? (
+            <TelemetryAreaChart telemetry={telemetry as NumericDatapoint[]} />
+          ) : (
+            <TelemetryStepLineChart telemetry={telemetry as TextDatapoint[]} />
+          )}
+        </div>
+        <div className="lg:flex-1">
+          <TelemetryTable telemetry={telemetry} isNumeric={isNumeric} />
+        </div>
+      </div>
     </div>
   );
 }
