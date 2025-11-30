@@ -60,7 +60,7 @@ app.get("/api/devices/:deviceId/telemetry", async (req, res) => {
       dataType === "numeric" ? "telemetry_numeric" : "telemetry_text";
 
     const telemetryResult = await pool.query(
-      `SELECT * FROM ${telemetryTable} WHERE device_id = $1 ORDER BY recorded_at DESC LIMIT $2`,
+      `SELECT * FROM ${telemetryTable} WHERE device_id = $1 ORDER BY recorded_at ASC LIMIT $2`,
       [deviceId, limit],
     );
 
