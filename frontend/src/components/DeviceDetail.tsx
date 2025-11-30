@@ -5,7 +5,8 @@ import { useTelemetry } from "../hooks/useTelemetry.ts";
 import DeviceInfo from "./DeviceInfo.tsx";
 import TelemetryTable from "./TelemetryTable.tsx";
 import TelemetryAreaChart from "./TelemetryAreaChart.tsx";
-import type { NumericDatapoint } from "../types.ts";
+import TelemetryStepLineChart from "./TelemetryStepLineChart.tsx";
+import type { NumericDatapoint, TextDatapoint } from "../types.ts";
 
 export default function DeviceDetail() {
   const params = useParams();
@@ -55,7 +56,7 @@ export default function DeviceDetail() {
           {isNumeric ? (
             <TelemetryAreaChart telemetry={telemetry as NumericDatapoint[]} />
           ) : (
-            <p>Placeholder</p>
+            <TelemetryStepLineChart telemetry={telemetry as TextDatapoint[]} />
           )}
         </div>
         <div className="lg:flex-1">

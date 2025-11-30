@@ -1,4 +1,5 @@
 import type { NumericDatapoint, TextDatapoint } from "../types.ts";
+import { formatLongTimestamp } from "../utils/telemetryUtils.ts";
 
 type TelemetryTableProps = {
   telemetry: NumericDatapoint[] | TextDatapoint[];
@@ -35,9 +36,7 @@ export default function TelemetryTable({
                 <td className="px-4 py-2">{(t as NumericDatapoint).unit}</td>
               )}
               <td className="px-4 py-2">
-                {new Date(t.recorded_at).toLocaleString("en-CA", {
-                  hour12: false,
-                })}
+                {formatLongTimestamp(t.recorded_at)}
               </td>
             </tr>
           ))}

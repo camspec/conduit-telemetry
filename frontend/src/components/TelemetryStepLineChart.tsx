@@ -1,6 +1,6 @@
 import {
-  Area,
-  AreaChart,
+  Line,
+  LineChart,
   CartesianGrid,
   Tooltip,
   XAxis,
@@ -8,34 +8,28 @@ import {
 } from "recharts";
 import TelemetryTooltip from "./TelemetryTooltip.tsx";
 import { formatShortTimestamp } from "../utils/telemetryUtils.ts";
-import type { NumericDatapoint } from "../types.ts";
+import type { TextDatapoint } from "../types.ts";
 
-type TelemetryAreaChartProps = {
-  telemetry: NumericDatapoint[];
+type TelemetryStepLineChartProps = {
+  telemetry: TextDatapoint[];
 };
 
-export default function TelemetryAreaChart({
+export default function TelemetryStepLineChart({
   telemetry,
-}: TelemetryAreaChartProps) {
+}: TelemetryStepLineChartProps) {
   const data = telemetry.map((t) => ({
     ...t,
     time: new Date(t.recorded_at).getTime(),
   }));
 
-  const chartColor = "#b185db";
+  const chartColor = "#b5e48c";
 
   return (
-    <AreaChart
+    <LineChart
       style={{ width: "100%", aspectRatio: 1.618 }}
       responsive
       data={data}
     >
-      <defs>
-        <linearGradient id="colorTelemetry" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor={chartColor} stopOpacity={0.8} />
-          <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
-        </linearGradient>
-      </defs>
       <CartesianGrid strokeDasharray="3 3" stroke="#555" />
       <XAxis
         dataKey="time"
@@ -48,17 +42,18 @@ export default function TelemetryAreaChart({
       <YAxis
         dataKey="reading"
         stroke="white"
-        type="number"
+        type="category"
         domain={["auto", "auto"]}
-        unit={` ${telemetry[0]?.unit || ""}`}
+        padding={{ top: 30, bottom: 30 }}
       />
       <Tooltip content={TelemetryTooltip} />
-      <Area
-        type="monotone"
+      <Line
+        type="stepAfter"
         dataKey="reading"
         stroke={chartColor}
-        fill="url(#colorTelemetry)"
+        strokeWidth={2}
+        dot={false}
       />
-    </AreaChart>
+    </LineChart>
   );
 }
