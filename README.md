@@ -2,7 +2,7 @@
 *Named after the conduit blocks from the Minecraft mod Ender IO, which transport items, energy, and data between systems.* <img width="20" height="20" alt="Block_Item_Conduit" src="https://github.com/user-attachments/assets/0e18ead7-794c-4f35-9b03-5157a248ce5e" />
 
 
-Conduit is a light telemetry data collection and visualization app. My goal is to consolidate a variety of device data and telemetry into a single interface, while also handling real-time data.
+Conduit is a lightweight telemetry data collection and visualization app. My goal is to consolidate a variety of device data and telemetry into a single interface, while also handling real-time data.
 
 The app demonstrates efficient live data visualization with minimal latency over the WebSocket protocol. It focuses on time series data (a series of datapoints each individually linked with a timestamp). This lets us potentially do more interesting data analytics such as aggregation, trend analysis, and visualization.
 
@@ -13,7 +13,9 @@ I have a few focuses in mind while developing this application:
 - Real-time: The app should be able to reasonably handle large amounts of real-time data.
 
 ## Potential use case
-Smart home devices often lack unified interfaces, and they unfortunately require multiple apps to access data (everything needs an app now). Telemetry from different devices can be difficult to retrieve and view in one pretty place. 
+Smart home devices often lack unified interfaces, and they unfortunately require multiple apps to access data (everything needs an app now). Telemetry from different devices can be difficult to retrieve and view in one pretty place.
+
+Conduit can also be used for telemetry from embedded systems (e.g. temperature sensors), server stats, and many more sources.
 
 Traditional data analytics tools like Jupyter, R, or BI platforms are powerful but can require significant setup and technical expertise. Conduit provides a lightweight alternative and focuses on quick visualization and monitoring of device telemetry.
 
