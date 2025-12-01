@@ -41,8 +41,8 @@ Development tools:
 ## Setup instructions
 ```bash
 # Clone the repo (I personally use SSH)
-git clone https://github.com/camspec/telemetry-monitor.git
-cd telemetry-monitor
+git clone https://github.com/camspec/conduit-telemetry.git
+cd conduit-telemetry
 
 # Install backend dependencies
 cd backend
@@ -82,4 +82,4 @@ npm run dev
 ## Attributions
 Ender IO conduit image from user RZR0 of the FTB wiki. Licensed under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
 
-This project is licensed under the [MIT License](https://github.com/camspec/telemetry-monitor/blob/main/LICENSE).
+This project is licensed under the [MIT License](https://github.com/camspec/conduit-telemetry/blob/main/LICENSE).
