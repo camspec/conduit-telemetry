@@ -7,7 +7,18 @@ const validateTelemetry = require("../middleware/validateTelemetry.js");
 router.get("/", async (req, res) => {
   try {
     const deviceId = req.params.deviceId;
-    const limit = parseInt(req.query.limit) || 100;
+
+    if (!deviceId || isNaN(parseInt(deviceId))) {
+      return res.status(400).json({ error: "Invalid device ID" });
+    }
+
+    let limit = parseInt(req.query.limit);
+
+    if (isNaN(limit) || limit < 1 || limit > 1000) {
+      return res
+        .status(400)
+        .json({ error: "Limit must be a valid integer between 1 to 1000" });
+    }
 
     const deviceResult = await pool.query(
       "SELECT data_type FROM devices WHERE id = $1",
