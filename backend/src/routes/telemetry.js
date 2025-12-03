@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const pool = require("../../db/pool.js");
+const authenticateDevice = require("../middleware/authenticateTelemetry.js");
+const validateTelemetry = require("../middleware/validateTelemetry.js");
 
 router.get("/", async (req, res) => {
   try {
@@ -28,6 +30,33 @@ router.get("/", async (req, res) => {
     res.json(telemetryResult.rows);
   } catch (error) {
     console.error("Error fetching telemetry:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
+  try {
+    const { reading, unit, recordedAt } = req.body;
+    const dataType = req.dataType;
+    const deviceId = req.params.deviceId;
+
+    if (dataType === "numeric") {
+      await pool.query(
+        "INSERT INTO telemetry_numeric (reading, unit, device_id, recorded_at) VALUES ($1, $2, $3, $4)",
+        [reading, unit, deviceId, recordedAt],
+      );
+    } else if (dataType === "text") {
+      await pool.query(
+        "INSERT INTO telemetry_text (reading, device_id, recorded_at) VALUES ($1, $2, $3)",
+        [reading, deviceId, recordedAt],
+      );
+    }
+
+    res
+      .status(201)
+      .json({ success: true, message: "Telemetry recorded successfully" });
+  } catch (error) {
+    console.error("Error uploading telemetry:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
