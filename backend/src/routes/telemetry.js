@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       return res.status(400).json({ error: "Invalid device ID" });
     }
 
-    let limit = parseInt(req.query.limit);
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
 
     if (isNaN(limit) || limit < 1 || limit > 1000) {
       return res
