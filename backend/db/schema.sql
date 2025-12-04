@@ -12,7 +12,7 @@ CREATE TABLE telemetry_numeric (
   reading numeric NOT NULL,
   unit varchar(50),
   device_id integer NOT NULL REFERENCES devices(id),
-  recorded_at timestamptz NOT NULL
+  recorded_at timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE INDEX idx_telemetry_numeric_device_time ON telemetry_numeric(device_id, recorded_at);
@@ -21,7 +21,7 @@ CREATE TABLE telemetry_text (
   id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   reading text NOT NULL,
   device_id integer NOT NULL REFERENCES devices(id),
-  recorded_at timestamptz NOT NULL
+  recorded_at timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE INDEX idx_telemetry_text_device_time ON telemetry_text(device_id, recorded_at);
