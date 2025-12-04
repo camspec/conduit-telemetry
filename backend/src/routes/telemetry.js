@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const pool = require("../../db/pool.js");
-const authenticateDevice = require("../middleware/authenticateTelemetry.js");
+const authenticateDevice = require("../middleware/authenticateDevice.js");
 const validateTelemetry = require("../middleware/validateTelemetry.js");
 
 router.get("/", async (req, res) => {
