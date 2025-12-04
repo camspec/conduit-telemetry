@@ -21,15 +21,6 @@ export default function TelemetryStepLineChart({
   // category order is from bottom to top of YAxis
   const categoryOrder = useMemo(() => {
     const uniqueValues = Array.from(new Set(telemetry.map((t) => t.reading)));
-
-    if (uniqueValues.every((v) => v === "true" || v === "false")) {
-      return ["false", "true"];
-    }
-
-    if (uniqueValues.every((v) => !isNaN(Number(v)))) {
-      return uniqueValues.sort((a, b) => Number(a) - Number(b));
-    }
-
     return uniqueValues.sort();
   }, [telemetry]);
 
