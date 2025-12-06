@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router";
 import { useDevice } from "../hooks/useDevice.ts";
@@ -6,9 +7,15 @@ import DeviceInfo from "./DeviceInfo.tsx";
 import TelemetryTable from "./TelemetryTable.tsx";
 import TelemetryAreaChart from "./TelemetryAreaChart.tsx";
 import TelemetryStepLineChart from "./TelemetryStepLineChart.tsx";
-import type { NumericDatapoint, TextDatapoint } from "../types.ts";
+import TimeRangeSelector from "./TimeRangeSelector.tsx";
+import type { NumericDatapoint, TextDatapoint, TimeRange } from "../types.ts";
 
 export default function DeviceDetail() {
+  const [timeRange, setTimeRange] = useState<TimeRange>({
+    type: "preset",
+    value: "24H",
+  });
+
   const params = useParams();
 
   const {
@@ -53,10 +60,20 @@ export default function DeviceDetail() {
           </Link>
           <h2 className="font-bold text-xl">{device.name}</h2>
           <DeviceInfo device={device} />
+          <TimeRangeSelector
+            timeRange={timeRange}
+            onTimeRangeChange={setTimeRange}
+          />
           {isNumeric ? (
-            <TelemetryAreaChart telemetry={telemetry as NumericDatapoint[]} />
+            <TelemetryAreaChart
+              telemetry={telemetry as NumericDatapoint[]}
+              timeRange={timeRange}
+            />
           ) : (
-            <TelemetryStepLineChart telemetry={telemetry as TextDatapoint[]} />
+            <TelemetryStepLineChart
+              telemetry={telemetry as TextDatapoint[]}
+              timeRange={timeRange}
+            />
           )}
         </div>
         <div className="lg:flex-1">

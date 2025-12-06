@@ -8,14 +8,16 @@ import {
 } from "recharts";
 import TelemetryTooltip from "./TelemetryTooltip.tsx";
 import { formatShortTimestamp } from "../utils/telemetryUtils.ts";
-import type { NumericDatapoint } from "../types.ts";
+import type { NumericDatapoint, TimeRange } from "../types.ts";
 
 type TelemetryAreaChartProps = {
   telemetry: NumericDatapoint[];
+  timeRange: TimeRange;
 };
 
 export default function TelemetryAreaChart({
   telemetry,
+  timeRange,
 }: TelemetryAreaChartProps) {
   const data = telemetry.map((t) => ({
     ...t,

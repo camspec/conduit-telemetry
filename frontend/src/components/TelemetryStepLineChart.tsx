@@ -9,14 +9,16 @@ import {
 } from "recharts";
 import TelemetryTooltip from "./TelemetryTooltip.tsx";
 import { formatShortTimestamp } from "../utils/telemetryUtils.ts";
-import type { TextDatapoint } from "../types.ts";
+import type { TextDatapoint, TimeRange } from "../types.ts";
 
 type TelemetryStepLineChartProps = {
   telemetry: TextDatapoint[];
+  timeRange: TimeRange;
 };
 
 export default function TelemetryStepLineChart({
   telemetry,
+  timeRange,
 }: TelemetryStepLineChartProps) {
   // category order is from bottom to top of YAxis
   const categoryOrder = useMemo(() => {
