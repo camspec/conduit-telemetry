@@ -7,7 +7,7 @@ const authenticateDevice = async (req, res, next) => {
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "Invalid authorization header" });
     }
-    
+
     const apiKey = authHeader.split(" ")[1];
 
     if (!apiKey) {

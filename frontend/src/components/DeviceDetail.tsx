@@ -30,7 +30,7 @@ export default function DeviceDetail() {
     error: telemetryError,
     isError: telemetryIsError,
     isPending: telemetryIsPending,
-  } = useTelemetry(params.deviceId);
+  } = useTelemetry({ deviceId: params.deviceId, timeRange: timeRange });
 
   if (deviceIsPending) {
     return <p className="p-10">Loading device...</p>;
@@ -65,15 +65,9 @@ export default function DeviceDetail() {
             onTimeRangeChange={setTimeRange}
           />
           {isNumeric ? (
-            <TelemetryAreaChart
-              telemetry={telemetry as NumericDatapoint[]}
-              timeRange={timeRange}
-            />
+            <TelemetryAreaChart telemetry={telemetry as NumericDatapoint[]} />
           ) : (
-            <TelemetryStepLineChart
-              telemetry={telemetry as TextDatapoint[]}
-              timeRange={timeRange}
-            />
+            <TelemetryStepLineChart telemetry={telemetry as TextDatapoint[]} />
           )}
         </div>
         <div className="lg:flex-1">

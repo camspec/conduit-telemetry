@@ -12,12 +12,31 @@ router.get("/", async (req, res) => {
       return res.status(400).json({ error: "Invalid device ID" });
     }
 
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+    let limit = req.query.limit != null ? parseInt(req.query.limit) : 100;
+    let start = req.query.start ?? null;
+    let end = req.query.end ?? null;
 
-    if (isNaN(limit) || limit < 1 || limit > 1000) {
+    if (start === null && end === null) {
+      if (isNaN(limit) || limit < 1 || limit > 1000) {
+        return res
+          .status(400)
+          .json({ error: "Limit must be a valid integer between 1 to 1000" });
+      }
+    }
+
+    let startTimestamp = start ? new Date(start) : null;
+    let endTimestamp = end ? new Date(end) : null;
+
+    if (start !== null && isNaN(startTimestamp.getTime())) {
       return res
         .status(400)
-        .json({ error: "Limit must be a valid integer between 1 to 1000" });
+        .json({ error: "Start time must be a valid timestamp" });
+    }
+
+    if (end !== null && isNaN(endTimestamp.getTime())) {
+      return res
+        .status(400)
+        .json({ error: "End time must be a valid timestamp" });
     }
 
     const deviceResult = await pool.query(
@@ -33,10 +52,30 @@ router.get("/", async (req, res) => {
     const telemetryTable =
       dataType === "numeric" ? "telemetry_numeric" : "telemetry_text";
 
-    const telemetryResult = await pool.query(
-      `SELECT * FROM ${telemetryTable} WHERE device_id = $1 ORDER BY recorded_at ASC LIMIT $2`,
-      [deviceId, limit],
-    );
+    let conditions = ["device_id = $1"];
+    let params = [deviceId];
+    let paramIndex = 2;
+
+    if (start !== null) {
+      conditions.push(`recorded_at >= $${paramIndex}`);
+      params.push(startTimestamp);
+      paramIndex++;
+    }
+
+    if (end !== null) {
+      conditions.push(`recorded_at <= $${paramIndex}`);
+      params.push(endTimestamp);
+      paramIndex++;
+    }
+
+    let query = `SELECT * FROM ${telemetryTable} WHERE ${conditions.join(" AND ")} ORDER BY recorded_at ASC`;
+
+    if (start === null && end === null) {
+      query += ` LIMIT $${paramIndex}`;
+      params.push(limit);
+    }
+
+    const telemetryResult = await pool.query(query, params);
 
     res.json(telemetryResult.rows);
   } catch (error) {
