@@ -52,15 +52,29 @@ router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
     const deviceId = req.params.deviceId;
 
     if (dataType === "numeric") {
-      await pool.query(
-        "INSERT INTO telemetry_numeric (reading, unit, device_id, recorded_at) VALUES ($1, $2, $3, $4)",
-        [reading, unit, deviceId, recordedAt],
-      );
+      if (recordedAt) {
+        await pool.query(
+          "INSERT INTO telemetry_numeric (reading, unit, device_id, recorded_at) VALUES ($1, $2, $3, $4)",
+          [reading, unit, deviceId, recordedAt],
+        );
+      } else {
+        await pool.query(
+          "INSERT INTO telemetry_numeric (reading, unit, device_id) VALUES ($1, $2, $3)",
+          [reading, unit, deviceId],
+        );
+      }
     } else if (dataType === "text") {
-      await pool.query(
-        "INSERT INTO telemetry_text (reading, device_id, recorded_at) VALUES ($1, $2, $3)",
-        [reading, deviceId, recordedAt],
-      );
+      if (recordedAt) {
+        await pool.query(
+          "INSERT INTO telemetry_text (reading, device_id, recorded_at) VALUES ($1, $2, $3)",
+          [reading, deviceId, recordedAt],
+        );
+      } else {
+        await pool.query(
+          "INSERT INTO telemetry_text (reading, device_id) VALUES ($1, $2)",
+          [reading, deviceId],
+        );
+      }
     }
 
     res
