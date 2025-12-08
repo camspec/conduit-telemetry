@@ -10,16 +10,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/devices", devicesRouter);
 
 const server = http.createServer(app);
 
 const broadcast = initWebSocket(server);
 
+app.locals.broadcast = broadcast;
+
+app.use("/api/devices", devicesRouter);
+
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
-
-setInterval(() => {
-  broadcast({ type: "telemetry", value: Math.random() });
-}, 2000);
