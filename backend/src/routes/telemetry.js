@@ -90,39 +90,35 @@ router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
     const dataType = req.dataType;
     const deviceId = req.params.deviceId;
 
+    let insertedRow;
+
     if (dataType === "numeric") {
-      if (recordedAt) {
-        await pool.query(
-          "INSERT INTO telemetry_numeric (reading, unit, device_id, recorded_at) VALUES ($1, $2, $3, $4)",
-          [reading, unit, deviceId, recordedAt],
-        );
-      } else {
-        await pool.query(
-          "INSERT INTO telemetry_numeric (reading, unit, device_id) VALUES ($1, $2, $3)",
-          [reading, unit, deviceId],
-        );
-      }
+      const query = recordedAt
+        ? "INSERT INTO telemetry_numeric (reading, unit, device_id, recorded_at) VALUES ($1, $2, $3, $4) RETURNING *"
+        : "INSERT INTO telemetry_numeric (reading, unit, device_id) VALUES ($1, $2, $3) RETURNING *";
+      const params = recordedAt
+        ? [reading, unit, deviceId, recordedAt]
+        : [reading, unit, deviceId];
+      const result = await pool.query(query, params);
+      insertedRow = result.rows[0];
     } else if (dataType === "text") {
-      if (recordedAt) {
-        await pool.query(
-          "INSERT INTO telemetry_text (reading, device_id, recorded_at) VALUES ($1, $2, $3)",
-          [reading, deviceId, recordedAt],
-        );
-      } else {
-        await pool.query(
-          "INSERT INTO telemetry_text (reading, device_id) VALUES ($1, $2)",
-          [reading, deviceId],
-        );
-      }
+      const query = recordedAt
+        ? "INSERT INTO telemetry_text (reading, device_id, recorded_at) VALUES ($1, $2, $3) RETURNING *"
+        : "INSERT INTO telemetry_text (reading, device_id) VALUES ($1, $2) RETURNING *";
+      const params = recordedAt
+        ? [reading, deviceId, recordedAt]
+        : [reading, deviceId];
+      const result = await pool.query(query, params);
+      insertedRow = result.rows[0];
     }
 
     req.app.locals.broadcast({
       type: "telemetry_update",
       deviceId: req.params.deviceId,
       data: {
-        reading: reading,
-        unit: unit,
-        recordedAt: recordedAt,
+        reading: insertedRow.reading,
+        unit: insertedRow.unit,
+        recordedAt: insertedRow.recorded_at,
       },
     });
 
