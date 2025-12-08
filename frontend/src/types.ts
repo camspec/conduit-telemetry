@@ -18,3 +18,9 @@ export interface TextDatapoint {
   reading: string;
   recorded_at: string;
 }
+
+export type PresetValue = "1H" | "6H" | "24H" | "7D" | "30D";
+
+export type TimeRange =
+  | { type: "preset"; value: PresetValue }
+  | { type: "custom"; start: string; end: string };

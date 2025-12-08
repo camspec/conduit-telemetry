@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Line,
   LineChart,
@@ -17,10 +18,21 @@ type TelemetryStepLineChartProps = {
 export default function TelemetryStepLineChart({
   telemetry,
 }: TelemetryStepLineChartProps) {
-  const data = telemetry.map((t) => ({
-    ...t,
-    time: new Date(t.recorded_at).getTime(),
-  }));
+  // category order is from bottom to top of YAxis
+  const categoryOrder = useMemo(() => {
+    const uniqueValues = Array.from(new Set(telemetry.map((t) => t.reading)));
+    return uniqueValues.sort();
+  }, [telemetry]);
+
+  const data = useMemo(
+    () =>
+      telemetry.map((t) => ({
+        ...t,
+        time: new Date(t.recorded_at).getTime(),
+        value: categoryOrder.indexOf(t.reading),
+      })),
+    [telemetry, categoryOrder],
+  );
 
   const chartColor = "#b5e48c";
 
@@ -40,16 +52,17 @@ export default function TelemetryStepLineChart({
         scale="time"
       />
       <YAxis
-        dataKey="reading"
+        dataKey="value"
         stroke="white"
-        type="category"
-        domain={["auto", "auto"]}
+        type="number"
+        ticks={categoryOrder.map((_, i) => i)}
+        tickFormatter={(i) => categoryOrder[i]}
         padding={{ top: 30, bottom: 30 }}
       />
       <Tooltip content={TelemetryTooltip} />
       <Line
         type="stepAfter"
-        dataKey="reading"
+        dataKey="value"
         stroke={chartColor}
         strokeWidth={2}
         dot={false}
