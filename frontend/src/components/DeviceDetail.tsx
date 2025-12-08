@@ -63,7 +63,7 @@ export default function DeviceDetail() {
     const ws = new WebSocket("/ws");
 
     ws.onopen = () => {
-      console.log("Connected");
+      console.log("WebSocket connected");
     };
 
     ws.onmessage = (event) => {
