@@ -116,6 +116,16 @@ router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
       }
     }
 
+    req.app.locals.broadcast({
+      type: "telemetry_update",
+      deviceId: req.params.deviceId,
+      data: {
+        reading: reading,
+        unit: unit,
+        recordedAt: recordedAt,
+      },
+    });
+
     res
       .status(201)
       .json({ success: true, message: "Telemetry recorded successfully" });
