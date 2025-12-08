@@ -55,7 +55,7 @@ export default function TelemetryStepLineChart({
         dataKey="value"
         stroke="white"
         type="number"
-        ticks={categoryOrder.map((c, i) => i)}
+        ticks={categoryOrder.map((_, i) => i)}
         tickFormatter={(i) => categoryOrder[i]}
         padding={{ top: 30, bottom: 30 }}
       />
