@@ -48,5 +48,6 @@ export function useTelemetry({
       return res.json();
     },
     enabled: !!deviceId,
+    refetchInterval: 5000,
   });
 }

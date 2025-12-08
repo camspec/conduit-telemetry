@@ -116,6 +116,7 @@ router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
       type: "telemetry_update",
       deviceId: req.params.deviceId,
       data: {
+        id: insertedRow.id,
         reading: insertedRow.reading,
         unit: insertedRow.unit,
         recordedAt: insertedRow.recorded_at,
