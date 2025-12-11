@@ -34,7 +34,7 @@ Frontend stuff:
 - Vite
 - Recharts
 - React Query and React Router
-- Native WebSocket API
+- WebSocket API
 
 Development tools:
 - ESLint and Prettier
