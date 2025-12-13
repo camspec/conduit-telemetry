@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal.tsx";
+import AddDeviceModal from "./AddDeviceModal.tsx";
 
 export default function AddDeviceButton() {
   const [showModal, setShowModal] = useState(false);
@@ -11,9 +11,7 @@ export default function AddDeviceButton() {
       >
         + Add Device
       </button>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)} content={"hi"} />
-      )}
+      {showModal && <AddDeviceModal onClose={() => setShowModal(false)} />}
     </>
   );
 }

@@ -2,10 +2,10 @@ import { createPortal } from "react-dom";
 
 type ModalProps = {
   onClose: () => void;
-  content: React.ReactNode;
+  children: React.ReactNode;
 };
 
-export default function Modal({ onClose, content }: ModalProps) {
+export default function Modal({ onClose, children }: ModalProps) {
   return createPortal(
     <div
       onClick={onClose}
@@ -15,7 +15,7 @@ export default function Modal({ onClose, content }: ModalProps) {
         onClick={(e) => e.stopPropagation()}
         className="bg-slate-700 rounded-xl p-8"
       >
-        {content}
+        {children}
       </div>
     </div>,
     document.body,
