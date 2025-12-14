@@ -37,7 +37,8 @@ Frontend stuff:
 - WebSocket API
 
 Development tools:
-- ESLint and Prettier
+- ESLint
+- Prettier
 - Sheer willpower
 
 ## Setup instructions
