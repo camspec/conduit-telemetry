@@ -87,7 +87,7 @@ router.get("/", async (req, res) => {
 router.post("/", authenticateDevice, validateTelemetry, async (req, res) => {
   try {
     const { reading, unit, recordedAt } = req.body;
-    const dataType = req.dataType;
+    const dataType = req.dataType; // retrieved from auth middleware
     const deviceId = req.params.deviceId;
 
     let insertedRow;

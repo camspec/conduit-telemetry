@@ -3,6 +3,7 @@ import AddDeviceModal from "./AddDeviceModal.tsx";
 
 export default function AddDeviceButton() {
   const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <button
