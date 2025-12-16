@@ -28,7 +28,7 @@ const validateDevice = (req, res, next) => {
   }
 
   req.body.name = name.trim();
-  req.body.category = category.trim();
+  req.body.category = category.trim().toLowerCase(); // categories are case-insensitive
 
   next();
 };

@@ -45,35 +45,43 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
       <h2 className="font-bold text-xl mb-6">Add Device</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block">Device Name</label>
+          <label className="block text-sm mb-1 text-gray-300">
+            Device Name
+          </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg"
+            required
           ></input>
         </div>
 
         <div>
-          <label className="block">Category</label>
+          <label className="block text-sm mb-1 text-gray-300">Category</label>
           <input
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            className="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg"
+            required
           ></input>
         </div>
 
         <div>
-          <label className="block">Data Type</label>
+          <label className="block text-sm mb-1 text-gray-300">Data Type</label>
           <select
             value={dataType}
             onChange={(e) => setDataType(e.target.value)}
+            className="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg"
+            required
           >
             <option value="numeric">Numeric</option>
             <option value="text">Text</option>
           </select>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-6">
           <button
             type="button"
             onClick={onClose}
