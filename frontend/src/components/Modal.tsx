@@ -28,7 +28,7 @@ export default function Modal({ onClose, children }: ModalProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-slate-700 rounded-xl p-8"
+        className="bg-slate-800 rounded-xl p-8"
       >
         {children}
       </div>

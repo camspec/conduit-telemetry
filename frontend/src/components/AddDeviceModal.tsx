@@ -46,25 +46,48 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block">Device Name</label>
-          <input type="text"></input>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
         </div>
 
         <div>
           <label className="block">Category</label>
-          <input type="text"></input>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          ></input>
         </div>
 
         <div>
           <label className="block">Data Type</label>
-          <select>
+          <select
+            value={dataType}
+            onChange={(e) => setDataType(e.target.value)}
+          >
             <option value="numeric">Numeric</option>
             <option value="text">Text</option>
           </select>
         </div>
 
         <div className="flex justify-between">
-          <button className="bg-slate-500 rounded-xl p-3">Cancel</button>
-          <button className="bg-slate-500 rounded-xl p-3">Create Device</button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-slate-700 hover:bg-slate-600 cursor-pointer rounded-xl p-3"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={createDeviceMutation.isPending}
+            className="bg-blue-500 hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-xl p-3"
+          >
+            {createDeviceMutation.isPending ? "Creating..." : "Create Device"}
+          </button>
         </div>
       </form>
     </Modal>
