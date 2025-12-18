@@ -59,6 +59,25 @@ router.post("/", validateDevice, async (req, res) => {
   }
 });
 
+router.delete("/:deviceId", async (req, res) => {
+  try {
+    const deviceId = req.params.deviceId;
+    const result = await pool.query(
+      "DELETE FROM devices WHERE id = $1 RETURNING *",
+      [deviceId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    res.json({ success: true, message: "Device deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting device:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.use("/:deviceId/telemetry", telemetryRouter);
 
 module.exports = router;
