@@ -92,7 +92,7 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
           <button
             type="submit"
             disabled={createDeviceMutation.isPending}
-            className="bg-blue-500 hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-xl p-3"
+            className="bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-xl p-3"
           >
             {createDeviceMutation.isPending ? "Creating..." : "Create Device"}
           </button>
