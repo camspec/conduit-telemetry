@@ -120,7 +120,12 @@ export default function DeviceDetail() {
           >
             &lt;- Back to devices
           </Link>
-          <h2 className="font-bold text-xl">{device.name}</h2>
+
+          <div className="space-y-3">
+            <h2 className="font-bold text-xl">{device.name}</h2>
+            <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-400 cursor-pointer text-sm">Delete</button>
+          </div>
+
           <DeviceInfo device={device} />
           <TimeRangeSelector
             timeRange={timeRange}
