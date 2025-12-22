@@ -123,7 +123,14 @@ export default function DeviceDetail() {
 
           <div className="space-y-3">
             <h2 className="font-bold text-xl">{device.name}</h2>
-            <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-400 cursor-pointer text-sm">Delete</button>
+            <div className="space-x-3">
+              <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 cursor-pointer text-sm">
+                Edit device
+              </button>
+              <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-400 cursor-pointer text-sm">
+                Delete
+              </button>
+            </div>
           </div>
 
           <DeviceInfo device={device} />
