@@ -15,7 +15,7 @@ export default function Modal({ onClose, children }: ModalProps) {
     };
 
     document.addEventListener("keydown", handleEscape);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden"; // disable scrolling while in modal
 
     return () => {
       document.removeEventListener("keydown", handleEscape);

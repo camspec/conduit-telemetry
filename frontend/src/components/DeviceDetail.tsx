@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { useDevice } from "../hooks/useDevice.ts";
 import { useTelemetry } from "../hooks/useTelemetry.ts";
 import DeviceInfo from "./DeviceInfo.tsx";
+import DeviceSettingsButton from "./DeviceSettingsButton.tsx";
 import TelemetryTable from "./TelemetryTable.tsx";
 import TelemetryAreaChart from "./TelemetryAreaChart.tsx";
 import TelemetryStepLineChart from "./TelemetryStepLineChart.tsx";
@@ -123,14 +124,7 @@ export default function DeviceDetail() {
 
           <div className="space-y-3">
             <h2 className="font-bold text-xl">{device.name}</h2>
-            <div className="space-x-3">
-              <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 cursor-pointer text-sm">
-                Edit device
-              </button>
-              <button className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-400 cursor-pointer text-sm">
-                Delete
-              </button>
-            </div>
+            <DeviceSettingsButton device={device} />
           </div>
 
           <DeviceInfo device={device} />
