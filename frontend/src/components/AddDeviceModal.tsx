@@ -45,10 +45,11 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
       <h2 className="font-bold text-xl mb-6">Add Device</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm mb-1 text-gray-300">
+          <label htmlFor="name" className="block text-sm mb-1 text-gray-300">
             Device Name
           </label>
           <input
+            id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -58,8 +59,14 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
         </div>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-300">Category</label>
+          <label
+            htmlFor="category"
+            className="block text-sm mb-1 text-gray-300"
+          >
+            Category
+          </label>
           <input
+            id="category"
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -69,8 +76,14 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
         </div>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-300">Data Type</label>
+          <label
+            htmlFor="dataType"
+            className="block text-sm mb-1 text-gray-300"
+          >
+            Data Type
+          </label>
           <select
+            id="dataType"
             value={dataType}
             onChange={(e) => setDataType(e.target.value)}
             className="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg"
