@@ -2,7 +2,7 @@ const validateTelemetry = (req, res, next) => {
   const { reading, unit, recordedAt } = req.body;
   const dataType = req.dataType;
 
-  if (reading === null || reading === undefined) {
+  if (reading == null) {
     return res.status(400).json({ error: "Reading is required" });
   }
 
@@ -13,7 +13,7 @@ const validateTelemetry = (req, res, next) => {
       });
     }
 
-    if (unit !== null && unit !== undefined) {
+    if (unit != null) {
       if (typeof unit !== "string" || unit.trim() === "") {
         return res
           .status(400)
@@ -27,14 +27,14 @@ const validateTelemetry = (req, res, next) => {
       });
     }
 
-    if (unit !== null && unit !== undefined) {
+    if (unit != null) {
       return res
         .status(400)
         .json({ error: "Unit is not allowed for text telemetry" });
     }
   }
 
-  if (recordedAt !== null && recordedAt !== undefined) {
+  if (recordedAt != null) {
     const timestamp = new Date(recordedAt);
 
     if (isNaN(timestamp.getTime())) {
