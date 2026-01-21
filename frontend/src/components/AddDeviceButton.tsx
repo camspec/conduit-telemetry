@@ -10,7 +10,7 @@ export default function AddDeviceButton() {
         onClick={() => setShowModal(true)}
         className="bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-lg px-3 py-2"
       >
-        + Add Device
+        + Add device
       </button>
       {showModal && <AddDeviceModal onClose={() => setShowModal(false)} />}
     </>

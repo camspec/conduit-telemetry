@@ -42,11 +42,11 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
 
   return (
     <Modal onClose={onClose}>
-      <h2 className="font-bold text-xl mb-6">Add Device</h2>
+      <h2 className="font-bold text-xl mb-6">Add device</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm mb-1 text-gray-300">
-            Device Name
+            Device name
           </label>
           <input
             id="name"
@@ -80,7 +80,7 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
             htmlFor="dataType"
             className="block text-sm mb-1 text-gray-300"
           >
-            Data Type
+            Data type
           </label>
           <select
             id="dataType"
@@ -107,7 +107,7 @@ export default function AddDeviceModal({ onClose }: AddDeviceModalProps) {
             disabled={createDeviceMutation.isPending}
             className="bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-xl p-3"
           >
-            {createDeviceMutation.isPending ? "Creating..." : "Create Device"}
+            {createDeviceMutation.isPending ? "Creating..." : "Create device"}
           </button>
         </div>
       </form>

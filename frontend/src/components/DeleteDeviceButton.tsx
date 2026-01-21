@@ -35,7 +35,7 @@ export default function DeleteDeviceButton({ device }: DeleteDeviceProps) {
         onClick={() => setShowModal(true)}
         className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-400 cursor-pointer text-sm"
       >
-        Delete Device
+        Delete device
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
